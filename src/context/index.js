@@ -71,16 +71,16 @@ function reducer(state, action) {
 // Material Dashboard 2 React context provider
 function MaterialUIControllerProvider({ children }) {
   const initialState = {
-    miniSidenav: false,
-    transparentSidenav: false,
-    whiteSidenav: false,
-    sidenavColor: "info",
-    transparentNavbar: true,
-    fixedNavbar: true,
-    openConfigurator: false,
-    direction: "ltr",
-    layout: "dashboard",
-    darkMode: false,
+    miniSidenav: JSON.parse(localStorage.getItem("MINI_SIDENAV")) ?? true,
+    transparentSidenav: JSON.parse(localStorage.getItem("TRANSPARENT_SIDENAV")) ?? false,
+    whiteSidenav: JSON.parse(localStorage.getItem("WHITE_SIDENAV")) ?? false,
+    sidenavColor: JSON.parse(localStorage.getItem("SIDENAV_COLOR")) ?? "info",
+    transparentNavbar: JSON.parse(localStorage.getItem("TRANSPARENT_NAVBAR")) ?? true,
+    fixedNavbar: JSON.parse(localStorage.getItem("FIXED_NAVBAR")) ?? true,
+    openConfigurator: JSON.parse(localStorage.getItem("OPEN_CONFIGURATOR")) ?? false,
+    direction: JSON.parse(localStorage.getItem("DIRECTION")) ?? "ltr",
+    layout: JSON.parse(localStorage.getItem("LAYOUT")) ?? "dashboard",
+    darkMode: JSON.parse(localStorage.getItem("DARKMODE")) ?? true,
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -109,16 +109,46 @@ MaterialUIControllerProvider.propTypes = {
 };
 
 // Context module functions
-const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });
-const setTransparentSidenav = (dispatch, value) => dispatch({ type: "TRANSPARENT_SIDENAV", value });
-const setWhiteSidenav = (dispatch, value) => dispatch({ type: "WHITE_SIDENAV", value });
-const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", value });
-const setTransparentNavbar = (dispatch, value) => dispatch({ type: "TRANSPARENT_NAVBAR", value });
-const setFixedNavbar = (dispatch, value) => dispatch({ type: "FIXED_NAVBAR", value });
-const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGURATOR", value });
-const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
-const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
-const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
+const setMiniSidenav = (dispatch, value) => {
+  localStorage.setItem("MINI_SIDENAV", JSON.stringify(value));
+  dispatch({ type: "MINI_SIDENAV", value });
+};
+const setTransparentSidenav = (dispatch, value) => {
+  localStorage.setItem("TRANSPARENT_SIDENAV", JSON.stringify(value));
+  dispatch({ type: "TRANSPARENT_SIDENAV", value });
+};
+const setWhiteSidenav = (dispatch, value) => {
+  localStorage.setItem("WHITE_SIDENAV", JSON.stringify(value));
+  dispatch({ type: "WHITE_SIDENAV", value });
+};
+const setSidenavColor = (dispatch, value) => {
+  localStorage.setItem("SIDENAV_COLOR", JSON.stringify(value));
+  dispatch({ type: "SIDENAV_COLOR", value });
+};
+const setTransparentNavbar = (dispatch, value) => {
+  localStorage.setItem("TRANSPARENT_NAVBAR", JSON.stringify(value));
+  dispatch({ type: "TRANSPARENT_NAVBAR", value });
+};
+const setFixedNavbar = (dispatch, value) => {
+  localStorage.setItem("FIXED_NAVBAR", JSON.stringify(value));
+  dispatch({ type: "FIXED_NAVBAR", value });
+};
+const setOpenConfigurator = (dispatch, value) => {
+  localStorage.setItem("OPEN_CONFIGURATOR", JSON.stringify(value));
+  dispatch({ type: "OPEN_CONFIGURATOR", value });
+};
+const setDirection = (dispatch, value) => {
+  localStorage.setItem("DIRECTION", JSON.stringify(value));
+  dispatch({ type: "DIRECTION", value });
+};
+const setLayout = (dispatch, value) => {
+  localStorage.setItem("LAYOUT", JSON.stringify(value));
+  dispatch({ type: "LAYOUT", value });
+};
+const setDarkMode = (dispatch, value) => {
+  localStorage.setItem("DARKMODE", JSON.stringify(value));
+  dispatch({ type: "DARKMODE", value });
+};
 
 export {
   MaterialUIControllerProvider,

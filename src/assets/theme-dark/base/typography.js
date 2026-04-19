@@ -28,7 +28,7 @@ import pxToRem from "assets/theme-dark/functions/pxToRem";
 const { white } = colors;
 
 const baseProperties = {
-  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  fontFamily: '"Pretendard", sans-serif',
   fontWeightLighter: 100,
   fontWeightLight: 300,
   fontWeightRegular: 400,

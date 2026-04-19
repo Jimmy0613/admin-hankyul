@@ -1,0 +1,34 @@
+/* editor */
+.editor-wrapper .ProseMirror {
+    outline: none;
+    min-height: 350px;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.editor-wrapper .ProseMirror p {
+    margin: 6px 0;
+}
+
+.editor-wrapper .ProseMirror h1 {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.editor-wrapper .ProseMirror h2 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.editor-wrapper .ProseMirror h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* blockquote */
+.editor-wrapper blockquote {
+    border-left: 4px solid #2563eb;
+    padding-left: 12px;
+    background: #f8fafc;
+    color: #555;
+}
