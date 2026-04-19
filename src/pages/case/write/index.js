@@ -12,20 +12,44 @@ import { useMaterialUIController } from "../../../context";
 import Editor from "../_components/Editor";
 
 export default function CaseWrite() {
-  const { id } = useParams(); // 핵심
+  const { id } = useParams();
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(!!id); // 수정일때만 로딩
+  const [loading, setLoading] = useState(!!id);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
 
   const titleRef = useRef(null);
 
+  // 카테고리 조회
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data, error } = await supabase
+        .from("categories")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) {
+        alert("카테고리 조회 실패");
+        return;
+      }
+
+      setCategories(data || []);
+    };
+
+    fetchCategories();
+  }, []);
+
   // 수정일 경우 데이터 불러오기
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setLoading(false);
+      return;
+    }
 
     const fetchData = async () => {
       const { data, error } = await supabase.from("columns").select("*").eq("id", id).single();
@@ -35,8 +59,9 @@ export default function CaseWrite() {
         return;
       }
 
-      setTitle(data.title);
-      setContent(data.content);
+      setTitle(data.title || "");
+      setContent(data.content || "");
+      setCategoryId(data.category_id ? String(data.category_id) : "");
       setLoading(false);
     };
 
@@ -45,7 +70,7 @@ export default function CaseWrite() {
 
   // 저장 (등록 + 수정 통합)
   const handleSave = async () => {
-    if (title.length === 0) {
+    if (title.trim().length === 0) {
       alert("제목을 입력하세요.");
       titleRef.current.focus();
       return;
@@ -54,16 +79,26 @@ export default function CaseWrite() {
     const ok = confirm(id ? "수정하시겠습니까?" : "저장하시겠습니까?");
     if (!ok) return;
 
+    const payload = {
+      title,
+      content,
+      category_id: categoryId === "" ? null : Number(categoryId),
+    };
+
     const query = id
       ? supabase
           .from("columns")
           .update({
-            title,
-            content,
+            ...payload,
             updated_at: new Date().toISOString(),
           })
           .eq("id", id)
-      : supabase.from("columns").insert([{ title, content, created_at: new Date().toISOString() }]);
+      : supabase.from("columns").insert([
+          {
+            ...payload,
+            created_at: new Date().toISOString(),
+          },
+        ]);
 
     const { data, error } = await query.select().single();
 
@@ -82,7 +117,6 @@ export default function CaseWrite() {
     <DashboardLayout>
       <DashboardNavbar />
 
-      {/* 타이틀 */}
       <MDBox px={3}>
         <MDTypography variant="h5" color={darkMode ? "white" : "dark"}>
           {id ? "업무사례 수정" : "업무사례 작성"}
@@ -92,28 +126,48 @@ export default function CaseWrite() {
       <MDBox pt={3} pb={3}>
         <Card>
           <MDBox p={3}>
-            {/* 제목 */}
-            <MDBox mb={2}>
-              <input
-                ref={titleRef}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "6px",
-                  border: "1px solid #ccc",
-                }}
-                placeholder="제목"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+            {/* 카테고리 + 제목 */}
+            <MDBox mb={2} display="flex" gap={2} flexDirection={{ xs: "column", md: "row" }}>
+              <MDBox sx={{ minWidth: { xs: "100%", md: "220px" } }}>
+                <select
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#fff",
+                  }}
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  <option value="">선택안함</option>
+                  {categories.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.category_name}
+                    </option>
+                  ))}
+                </select>
+              </MDBox>
+              <MDBox flex={1}>
+                <input
+                  ref={titleRef}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                  }}
+                  placeholder="제목"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </MDBox>
             </MDBox>
 
-            {/* 에디터 */}
             <Editor content={content} onChange={setContent} />
           </MDBox>
         </Card>
 
-        {/* 버튼 영역 */}
         <MDBox mt={2} display="flex" justifyContent="space-between">
           <MDButton onClick={() => navigate("/case/list")} color="dark">
             목록

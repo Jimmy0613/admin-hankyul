@@ -101,6 +101,24 @@ function Sidenav({ brand, brandName, routes, ...rest }) {
 
       <List>{renderRoutes}</List>
 
+      <Divider />
+
+      {/* 하단 버튼 */}
+      <MDBox p={2} mt="auto">
+        <MDButton
+          component="a"
+          href="http://test.hankyul.pages.dev"
+          target="_blank"
+          rel="noreferrer"
+          variant="gradient"
+          color="warning"
+          fullWidth
+        >
+          한결 테스트 홈페이지 바로가기
+        </MDButton>
+      </MDBox>
+
+      <Divider />
       {/* 하단 버튼 */}
       <MDBox p={2} mt="auto">
         <MDButton
@@ -109,10 +127,10 @@ function Sidenav({ brand, brandName, routes, ...rest }) {
           target="_blank"
           rel="noreferrer"
           variant="gradient"
-          color={sidenavColor}
+          color="secondary"
           fullWidth
         >
-          공동법률사무소 한결 홈페이지
+          한결 홈페이지 바로가기
         </MDButton>
       </MDBox>
     </SidenavRoot>

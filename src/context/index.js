@@ -76,7 +76,7 @@ function MaterialUIControllerProvider({ children }) {
     whiteSidenav: JSON.parse(localStorage.getItem("WHITE_SIDENAV")) ?? false,
     sidenavColor: JSON.parse(localStorage.getItem("SIDENAV_COLOR")) ?? "warning",
     transparentNavbar: JSON.parse(localStorage.getItem("TRANSPARENT_NAVBAR")) ?? true,
-    fixedNavbar: JSON.parse(localStorage.getItem("FIXED_NAVBAR")) ?? true,
+    fixedNavbar: JSON.parse(localStorage.getItem("FIXED_NAVBAR")) ?? false,
     openConfigurator: JSON.parse(localStorage.getItem("OPEN_CONFIGURATOR")) ?? false,
     direction: JSON.parse(localStorage.getItem("DIRECTION")) ?? "ltr",
     layout: JSON.parse(localStorage.getItem("LAYOUT")) ?? "dashboard",

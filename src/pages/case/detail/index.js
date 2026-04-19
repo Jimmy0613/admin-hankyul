@@ -4,10 +4,11 @@ import MDBox from "../../../components/MDBox";
 import Card from "@mui/material/Card";
 import MDTypography from "../../../components/MDTypography";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../../../api/supabase";
 import MDButton from "../../../components/MDButton";
 import { useMaterialUIController } from "../../../context";
+import { categoryStyleMap } from "../data/caseData";
 
 export default function CaseDetail() {
   const { id } = useParams();
@@ -16,9 +17,20 @@ export default function CaseDetail() {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
 
+  const isPublic = !!data?.is_public;
+
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await supabase.from("columns").select("*").eq("id", id).single();
+      const { data, error } = await supabase
+        .from("columns")
+        .select("*, categories(category_name)")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        alert("데이터를 가져오는 중 오류가 발생했습니다.");
+        return;
+      }
 
       setData(data);
     };
@@ -35,6 +47,30 @@ export default function CaseDetail() {
     };
 
     deleteData();
+  };
+
+  const handlePublish = () => {
+    const publishData = async () => {
+      const mode = isPublic ? "비공개" : "공개";
+      const ok = confirm(`이 칼럼을 ${mode}하시겠씁니까?`);
+      if (!ok) return;
+
+      const { data, error } = await supabase
+        .from("columns")
+        .update({ is_public: !isPublic })
+        .eq("id", id)
+        .select("*, categories(category_name)")
+        .single();
+
+      if (error) {
+        alert(`${mode} 처리 중 오류가 발생했습니다.`);
+        return;
+      }
+      alert(`${mode} 처리 되었습니다.`);
+      setData(data);
+    };
+
+    publishData();
   };
 
   if (!data) {
@@ -59,7 +95,28 @@ export default function CaseDetail() {
       <MDBox pt={6} pb={3}>
         <Card>
           <MDBox p={3}>
-            <MDTypography variant="h4">{data.title || ""}</MDTypography>
+            <MDBox display="flex" alignItems="center" gap={2} flexWrap="wrap">
+              {data.categories?.category_name && (
+                <MDBox
+                  component="span"
+                  px={2}
+                  py={0.75}
+                  sx={{
+                    borderRadius: "999px",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    lineHeight: 1,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    ...(categoryStyleMap[data.categories.category_name] ||
+                      categoryStyleMap.default),
+                  }}
+                >
+                  {data.categories.category_name}
+                </MDBox>
+              )}
+              <MDTypography variant="h4">{data.title || ""}</MDTypography>
+            </MDBox>
             <MDTypography variant="body2" color="text">
               {new Date(data.created_at).toLocaleString()}
             </MDTypography>
@@ -87,12 +144,16 @@ export default function CaseDetail() {
             목록
           </MDButton>
           <MDBox display="flex" gap={1}>
-            <MDButton
-              color="secondary"
-              onClick={() => {
-                window.location.href = `/case/write/${id}`;
-              }}
-            >
+            {isPublic ? (
+              <MDButton onClick={handlePublish} color="primary">
+                비공개
+              </MDButton>
+            ) : (
+              <MDButton onClick={handlePublish} color="info">
+                공개
+              </MDButton>
+            )}
+            <MDButton color="secondary" onClick={() => navigate(`/case/write/${id}`)}>
               수정
             </MDButton>
             <MDButton onClick={handleDelete} color="warning">

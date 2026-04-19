@@ -26,7 +26,6 @@ export default function Editor({ content, onChange }) {
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
       }),
-      HardBreak,
       ShiftEnter,
     ],
     content: content || "<p></p>",

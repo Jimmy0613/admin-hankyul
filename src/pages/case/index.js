@@ -12,7 +12,6 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import caseData from "./data/caseData";
 import { useMaterialUIController } from "../../context";
 import { useNavigate } from "react-router-dom";
-import { CardHeader } from "@mui/material";
 import MDButton from "../../components/MDButton";
 
 function Case() {
