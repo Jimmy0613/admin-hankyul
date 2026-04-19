@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
+import HardBreak from "@tiptap/extension-hard-break";
+import { Extension } from "@tiptap/core";
 
 import MDBox from "components/MDBox";
 import Toolbar from "./Toolbar";
@@ -11,14 +11,27 @@ import PropTypes from "prop-types";
 import "./editor.css";
 
 export default function Editor({ content, onChange }) {
+  const [_, forceUpdate] = useState(0);
+
+  const ShiftEnter = Extension.create({
+    addKeyboardShortcuts() {
+      return {
+        "Shift-Enter": () => this.editor.commands.setHardBreak(),
+      };
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
       }),
+      HardBreak,
+      ShiftEnter,
     ],
     content: content || "<p></p>",
     onUpdate: ({ editor }) => {
+      forceUpdate((v) => v + 1);
       onChange(editor.getHTML());
     },
   });

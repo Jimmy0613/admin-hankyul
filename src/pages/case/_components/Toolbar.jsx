@@ -83,6 +83,9 @@ export default function Toolbar({ editor }) {
       </Btn>
 
       <Btn onClick={setLink}>Link</Btn>
+
+      <Divider />
+      <Btn onClick={() => editor.commands.setHardBreak()}>줄바꿈(Shift+Enter)</Btn>
     </MDBox>
   );
 }

@@ -1,34 +1,65 @@
 /* editor */
-.editor-wrapper .ProseMirror {
+.editor-wrapper {
     outline: none;
     min-height: 350px;
     font-size: 15px;
     line-height: 1.7;
 }
 
-.editor-wrapper .ProseMirror p {
-    margin: 6px 0;
+.editor-wrapper p {
+    margin: 10px 0;
+    white-space: pre-wrap;
 }
 
-.editor-wrapper .ProseMirror h1 {
+.editor-wrapper h1 {
     font-size: 26px;
     font-weight: 700;
 }
 
-.editor-wrapper .ProseMirror h2 {
+.editor-wrapper h2 {
     font-size: 22px;
     font-weight: 700;
 }
 
-.editor-wrapper .ProseMirror h3 {
+.editor-wrapper h3 {
     font-size: 18px;
     font-weight: 600;
 }
 
-/* blockquote */
 .editor-wrapper blockquote {
-    border-left: 4px solid #2563eb;
-    padding-left: 12px;
-    background: #f8fafc;
-    color: #555;
+  position: relative;
+  margin: 24px auto;
+  padding: 24px 32px;
+  background: #f8fafc;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.8;
+  border: none;
+  border-radius: 12px;
+}
+
+/* 위 큰따옴표 */
+.editor-wrapper blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 42px;
+  color: #cbd5e1;
+  font-weight: bold;
+}
+
+/* 아래 큰따옴표 */
+.editor-wrapper blockquote::after {
+  content: "”";
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 42px;
+  color: #cbd5e1;
+  font-weight: bold;
 }

@@ -74,13 +74,13 @@ function MaterialUIControllerProvider({ children }) {
     miniSidenav: JSON.parse(localStorage.getItem("MINI_SIDENAV")) ?? true,
     transparentSidenav: JSON.parse(localStorage.getItem("TRANSPARENT_SIDENAV")) ?? false,
     whiteSidenav: JSON.parse(localStorage.getItem("WHITE_SIDENAV")) ?? false,
-    sidenavColor: JSON.parse(localStorage.getItem("SIDENAV_COLOR")) ?? "info",
+    sidenavColor: JSON.parse(localStorage.getItem("SIDENAV_COLOR")) ?? "warning",
     transparentNavbar: JSON.parse(localStorage.getItem("TRANSPARENT_NAVBAR")) ?? true,
     fixedNavbar: JSON.parse(localStorage.getItem("FIXED_NAVBAR")) ?? true,
     openConfigurator: JSON.parse(localStorage.getItem("OPEN_CONFIGURATOR")) ?? false,
     direction: JSON.parse(localStorage.getItem("DIRECTION")) ?? "ltr",
     layout: JSON.parse(localStorage.getItem("LAYOUT")) ?? "dashboard",
-    darkMode: JSON.parse(localStorage.getItem("DARKMODE")) ?? true,
+    darkMode: JSON.parse(localStorage.getItem("DARKMODE")) ?? false,
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
