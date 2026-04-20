@@ -16,7 +16,9 @@ export function mapColumnPostTableData(items, navigate) {
     const categoryName = category?.name || "미분류";
 
     return {
-      is_public: <MDTypography variant="caption">{item.is_public ? "공개" : "비공개"}</MDTypography>,
+      is_public: (
+        <MDTypography variant="caption">{item.is_public ? "공개" : "비공개"}</MDTypography>
+      ),
       category: (
         <MDBox
           component="span"

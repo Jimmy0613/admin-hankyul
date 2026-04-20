@@ -22,10 +22,5 @@ export async function createColumnCategory(payload) {
 }
 
 export async function updateColumnCategory(id, payload) {
-  return supabase
-    .from(COLUMN_CATEGORIES_TABLE)
-    .update(payload)
-    .eq("id", id)
-    .select()
-    .single();
+  return supabase.from(COLUMN_CATEGORIES_TABLE).update(payload).eq("id", id).select().single();
 }
