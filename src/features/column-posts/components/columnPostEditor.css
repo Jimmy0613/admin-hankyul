@@ -1,29 +1,28 @@
-/* editor */
 .editor-wrapper {
-    outline: none;
-    min-height: 350px;
-    font-size: 15px;
-    line-height: 1.7;
+  outline: none;
+  min-height: 350px;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .editor-wrapper p {
-    margin: 10px 0;
-    white-space: pre-wrap;
+  margin: 10px 0;
+  white-space: pre-wrap;
 }
 
 .editor-wrapper h1 {
-    font-size: 26px;
-    font-weight: 700;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 .editor-wrapper h2 {
-    font-size: 22px;
-    font-weight: 700;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .editor-wrapper h3 {
-    font-size: 18px;
-    font-weight: 600;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .editor-wrapper blockquote {
@@ -40,9 +39,8 @@
   border-radius: 12px;
 }
 
-/* 위 큰따옴표 */
 .editor-wrapper blockquote::before {
-  content: "“";
+  content: '"';
   position: absolute;
   top: -10px;
   left: 50%;
@@ -52,9 +50,8 @@
   font-weight: bold;
 }
 
-/* 아래 큰따옴표 */
 .editor-wrapper blockquote::after {
-  content: "”";
+  content: '"';
   position: absolute;
   bottom: -22px;
   left: 50%;

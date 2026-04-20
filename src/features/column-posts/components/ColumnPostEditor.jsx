@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import HardBreak from "@tiptap/extension-hard-break";
+import PropTypes from "prop-types";
 import { Extension } from "@tiptap/core";
+import HardBreak from "@tiptap/extension-hard-break";
+import Link from "@tiptap/extension-link";
+import Underline from "@tiptap/extension-underline";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 import MDBox from "components/MDBox";
-import Toolbar from "./Toolbar";
-import PropTypes from "prop-types";
+import ColumnPostToolbar from "./ColumnPostToolbar";
 
-import "./editor.css";
+import "./columnPostEditor.css";
 
-export default function Editor({ content, onChange }) {
-  const [_, forceUpdate] = useState(0);
+export default function ColumnPostEditor({ content, onChange }) {
+  const [, forceUpdate] = useState(0);
 
-  const ShiftEnter = Extension.create({
+  const shiftEnter = Extension.create({
     addKeyboardShortcuts() {
       return {
         "Shift-Enter": () => this.editor.commands.setHardBreak(),
@@ -26,16 +28,21 @@ export default function Editor({ content, onChange }) {
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
       }),
-      ShiftEnter,
+      Underline,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+      }),
+      HardBreak,
+      shiftEnter,
     ],
     content: content || "<p></p>",
-    onUpdate: ({ editor }) => {
-      forceUpdate((v) => v + 1);
-      onChange(editor.getHTML());
+    onUpdate: ({ editor: currentEditor }) => {
+      forceUpdate((value) => value + 1);
+      onChange(currentEditor.getHTML());
     },
   });
 
-  // 수정 데이터 반영
   useEffect(() => {
     if (!editor) return;
 
@@ -55,7 +62,6 @@ export default function Editor({ content, onChange }) {
         overflow: "hidden",
       }}
     >
-      {/* 툴바 */}
       <MDBox
         px={2}
         py={1}
@@ -65,10 +71,9 @@ export default function Editor({ content, onChange }) {
           backgroundColor: "grey.100",
         }}
       >
-        <Toolbar editor={editor} />
+        <ColumnPostToolbar editor={editor} />
       </MDBox>
 
-      {/* 에디터 영역 */}
       <MDBox
         className="editor-wrapper"
         p={2}
@@ -85,7 +90,7 @@ export default function Editor({ content, onChange }) {
   );
 }
 
-Editor.propTypes = {
+ColumnPostEditor.propTypes = {
   content: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };

@@ -1,15 +1,16 @@
-import MDButton from "components/MDButton";
-import MDBox from "components/MDBox";
-import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
+import PropTypes from "prop-types";
 
-function Btn({ onClick, active, children }) {
+import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
+
+function ToolbarButton({ onClick, active, children }) {
   return (
     <MDButton
       variant={active ? "gradient" : "outlined"}
       color={active ? "info" : "dark"}
       size="small"
-      onMouseDown={(e) => e.preventDefault()}
+      onMouseDown={(event) => event.preventDefault()}
       onClick={onClick}
       sx={{ minWidth: "36px", px: 1 }}
     >
@@ -18,84 +19,92 @@ function Btn({ onClick, active, children }) {
   );
 }
 
-export default function Toolbar({ editor }) {
+export default function ColumnPostToolbar({ editor }) {
   if (!editor) return null;
 
   const setLink = () => {
-    const url = prompt("링크 URL 입력");
-    if (!url) return;
+    const previousUrl = editor.getAttributes("link").href || "";
+    const url = window.prompt("링크 주소를 입력해주세요.", previousUrl);
 
-    editor.chain().focus().setLink({ href: url }).run();
+    if (url === null) return;
+
+    if (!url.trim()) {
+      editor.chain().focus().unsetLink().run();
+      return;
+    }
+
+    editor.chain().focus().setLink({ href: url.trim() }).run();
   };
 
   return (
     <MDBox display="flex" flexWrap="wrap" gap={1}>
-      <Btn
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         active={editor.isActive("heading", { level: 1 })}
       >
         H1
-      </Btn>
-
-      <Btn
+      </ToolbarButton>
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         active={editor.isActive("heading", { level: 2 })}
       >
         H2
-      </Btn>
-
-      <Btn
+      </ToolbarButton>
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         active={editor.isActive("heading", { level: 3 })}
       >
         H3
-      </Btn>
+      </ToolbarButton>
 
-      <Divider />
+      <Divider flexItem orientation="vertical" />
 
-      <Btn
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         active={editor.isActive("bold")}
       >
         B
-      </Btn>
-
-      <Btn
+      </ToolbarButton>
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleItalic().run()}
         active={editor.isActive("italic")}
       >
         I
-      </Btn>
-
-      <Btn
+      </ToolbarButton>
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         active={editor.isActive("underline")}
       >
         U
-      </Btn>
+      </ToolbarButton>
 
-      <Divider />
-      <Btn
+      <Divider flexItem orientation="vertical" />
+
+      <ToolbarButton
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         active={editor.isActive("blockquote")}
       >
-        &quot;
-      </Btn>
+        {"BQ"}
+      </ToolbarButton>
+      <ToolbarButton onClick={setLink} active={editor.isActive("link")}>
+        링크
+      </ToolbarButton>
 
-      <Btn onClick={setLink}>Link</Btn>
+      <Divider flexItem orientation="vertical" />
 
-      <Divider />
-      <Btn onClick={() => editor.commands.setHardBreak()}>줄바꿈(Shift+Enter)</Btn>
+      <ToolbarButton onClick={() => editor.commands.setHardBreak()} active={false}>
+        줄 바꿈
+      </ToolbarButton>
     </MDBox>
   );
 }
 
-Btn.propTypes = {
+ToolbarButton.propTypes = {
   onClick: PropTypes.func,
   active: PropTypes.bool,
   children: PropTypes.node,
 };
 
-Toolbar.propTypes = {
+ColumnPostToolbar.propTypes = {
   editor: PropTypes.object,
 };

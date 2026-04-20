@@ -23,13 +23,13 @@ function Basic() {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const handleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      alert("로그인 실패: " + error.message);
+      alert("로그인에 실패했습니다: " + error.message);
       return;
     }
 
@@ -39,9 +39,8 @@ function Basic() {
       localStorage.removeItem("EMAIL");
     }
 
-    // 로그인 성공
-    alert("로그인 성공");
-    navigate("/"); // 메인으로 이동
+    alert("로그인되었습니다.");
+    navigate("/");
   };
 
   return (
@@ -68,20 +67,20 @@ function Basic() {
             <MDBox mb={2}>
               <MDInput
                 type="email"
-                label="Email"
+                label="이메일"
                 fullWidth
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </MDBox>
 
             <MDBox mb={2}>
               <MDInput
                 type="password"
-                label="Password"
+                label="비밀번호"
                 fullWidth
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </MDBox>
 
@@ -93,7 +92,7 @@ function Basic() {
                 onClick={handleSetRememberMe}
                 sx={{ cursor: "pointer", ml: 1 }}
               >
-                Remember me
+                이메일 기억하기
               </MDTypography>
             </MDBox>
 
