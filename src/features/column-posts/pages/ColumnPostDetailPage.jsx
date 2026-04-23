@@ -9,8 +9,8 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useMaterialUIController } from "context";
 import PageHeader from "shared/ui/PageHeader";
 import CopyForBlogButton from "../components/CopyForBlogButton";
-import { getCategoryBadgeStyle } from "../model/columnPost.constants";
 import { useColumnPostDetail } from "../hooks/useColumnPostDetail";
+import { getCategoryBadgeStyle } from "../model/columnPost.constants";
 
 export default function ColumnPostDetailPage() {
   const { id } = useParams();
@@ -44,43 +44,47 @@ export default function ColumnPostDetailPage() {
       <MDBox pt={3} pb={3}>
         <Card>
           <MDBox p={3}>
-            <MDBox display="flex" alignItems="center" gap={2} flexWrap="wrap">
-              <MDBox
-                component="span"
-                px={2}
-                py={0.75}
-                sx={{
-                  borderRadius: "999px",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  ...getCategoryBadgeStyle(category),
-                }}
-              >
-                {categoryName}
+            <MDBox sx={{ width: "min(100%, 860px)", mx: "auto" }}>
+              <MDBox display="flex" alignItems="center" gap={2} flexWrap="wrap">
+                <MDBox
+                  component="span"
+                  px={2}
+                  py={0.75}
+                  sx={{
+                    borderRadius: "999px",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    lineHeight: 1,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    ...getCategoryBadgeStyle(category),
+                  }}
+                >
+                  {categoryName}
+                </MDBox>
+                <MDTypography variant="h4">{data.title || ""}</MDTypography>
               </MDBox>
-              <MDTypography variant="h4">{data.title || ""}</MDTypography>
-            </MDBox>
 
-            <MDBox mt={1}>
-              <MDTypography variant="body2" color="text">
-                작성일: {data.created_at ? new Date(data.created_at).toLocaleString("ko-KR") : "-"}
-              </MDTypography>
-              <MDTypography variant="body2" color="text">
-                수정일: {data.updated_at ? new Date(data.updated_at).toLocaleString("ko-KR") : "-"}
-              </MDTypography>
-              <MDTypography variant="body2" color="text">
-                공개 상태: {data.is_public ? "공개" : "비공개"}
-              </MDTypography>
-            </MDBox>
+              <MDBox mt={1}>
+                <MDTypography variant="body2" color="text">
+                  작성일:{" "}
+                  {data.created_at ? new Date(data.created_at).toLocaleString("ko-KR") : "-"}
+                </MDTypography>
+                <MDTypography variant="body2" color="text">
+                  수정일:{" "}
+                  {data.updated_at ? new Date(data.updated_at).toLocaleString("ko-KR") : "-"}
+                </MDTypography>
+                <MDTypography variant="body2" color="text">
+                  공개 상태: {data.is_public ? "공개" : "비공개"}
+                </MDTypography>
+              </MDBox>
 
-            <MDBox
-              mt={3}
-              className="editor-wrapper"
-              dangerouslySetInnerHTML={{ __html: data.content || "" }}
-            />
+              <MDBox
+                mt={3}
+                className="editor-wrapper"
+                dangerouslySetInnerHTML={{ __html: data.content || "" }}
+              />
+            </MDBox>
           </MDBox>
         </Card>
 

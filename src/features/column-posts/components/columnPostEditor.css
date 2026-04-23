@@ -3,6 +3,23 @@
   min-height: 350px;
   font-size: 15px;
   line-height: 1.7;
+  font-family: "Pretendard", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+.editor-wrapper .ProseMirror {
+  width: min(100%, 860px);
+  margin: 0 auto;
+  min-height: 300px;
+  padding: 24px 28px;
+  border: 1px solid #d7dee8;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.editor-wrapper .ProseMirror:focus {
+  border-color: #8aa4c6;
 }
 
 .editor-wrapper p {
@@ -40,7 +57,7 @@
 }
 
 .editor-wrapper blockquote::before {
-  content: '"';
+  content: "❝";
   position: absolute;
   top: -10px;
   left: 50%;
@@ -51,7 +68,7 @@
 }
 
 .editor-wrapper blockquote::after {
-  content: '"';
+  content: "❞";
   position: absolute;
   bottom: -22px;
   left: 50%;
