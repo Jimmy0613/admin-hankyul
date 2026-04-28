@@ -11,6 +11,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import MDBox from "components/MDBox";
+import CustomBullet from "../extensions/customBullet";
 import ColumnPostToolbar from "./ColumnPostToolbar";
 
 import "./columnPostEditor.css";
@@ -106,6 +107,7 @@ export default function ColumnPostEditor({ content, onChange }) {
       Underline,
       TextStyle,
       Color,
+      CustomBullet,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -179,6 +181,8 @@ export default function ColumnPostEditor({ content, onChange }) {
   return (
     <MDBox
       sx={{
+        display: "flex",
+        flexDirection: "column",
         border: "1px solid",
         borderColor: "grey.300",
         borderRadius: "0.5rem",
@@ -201,7 +205,9 @@ export default function ColumnPostEditor({ content, onChange }) {
         className="editor-wrapper"
         p={2}
         sx={{
-          minHeight: "250px",
+          minHeight: "420px",
+          maxHeight: "560px",
+          overflowY: "auto",
           "& .ProseMirror": {
             outline: "none",
           },

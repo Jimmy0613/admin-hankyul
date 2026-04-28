@@ -1,6 +1,6 @@
 .editor-wrapper {
   outline: none;
-  min-height: 350px;
+  min-height: 0;
   font-size: 15px;
   line-height: 1.7;
   font-family: "Pretendard", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
@@ -10,12 +10,13 @@
 .editor-wrapper .ProseMirror {
   width: min(100%, 860px);
   margin: 0 auto;
-  min-height: 300px;
+  min-height: 320px;
   padding: 24px 28px;
   border: 1px solid #d7dee8;
   border-radius: 18px;
   background: #ffffff;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  box-sizing: border-box;
 }
 
 .editor-wrapper .ProseMirror:focus {
@@ -25,6 +26,22 @@
 .editor-wrapper p {
   margin: 10px 0;
   white-space: pre-wrap;
+}
+
+.editor-wrapper p.custom-bullet {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.editor-wrapper p.custom-bullet::before {
+  content: attr(data-bullet-marker-text);
+  color: var(--bullet-marker-color, #111827);
+  font-weight: var(--bullet-marker-font-weight, 700);
+  line-height: 1.7;
+  white-space: pre;
 }
 
 .editor-wrapper h1 {
