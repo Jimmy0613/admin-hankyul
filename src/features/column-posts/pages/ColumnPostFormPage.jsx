@@ -21,6 +21,7 @@ export default function ColumnPostFormPage() {
     setTitle,
     content,
     setContent,
+    registerPendingImages,
     categoryId,
     setCategoryId,
     categories,
@@ -84,7 +85,11 @@ export default function ColumnPostFormPage() {
               </MDBox>
             </MDBox>
 
-            <ColumnPostEditor content={content} onChange={setContent} />
+            <ColumnPostEditor
+              content={content}
+              onChange={setContent}
+              registerPendingImages={registerPendingImages}
+            />
           </MDBox>
         </Card>
 

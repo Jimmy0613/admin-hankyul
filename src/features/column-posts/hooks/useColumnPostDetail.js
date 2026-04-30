@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { deleteManagedImagesByPostId } from "../api/columnPostImage.api";
 import { deleteColumnPost, getColumnPost, setColumnPostVisibility } from "../api/columnPost.api";
 
 export function useColumnPostDetail(id) {
@@ -10,7 +11,7 @@ export function useColumnPostDetail(id) {
 
     async function fetchColumnPost() {
       setLoading(true);
-      const { data, error } = await getColumnPost(id);
+      const { data: postData, error } = await getColumnPost(id);
 
       if (!mounted) return;
 
@@ -20,7 +21,7 @@ export function useColumnPostDetail(id) {
         return;
       }
 
-      setData(data);
+      setData(postData);
       setLoading(false);
     }
 
@@ -58,6 +59,13 @@ export function useColumnPostDetail(id) {
     if (error) {
       alert("칼럼을 삭제하지 못했습니다.");
       return false;
+    }
+
+    try {
+      await deleteManagedImagesByPostId(id);
+    } catch (cleanupError) {
+      console.error(cleanupError);
+      alert("칼럼은 삭제되었지만 버킷 이미지 정리에 실패했습니다.");
     }
 
     return true;

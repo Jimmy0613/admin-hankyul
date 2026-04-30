@@ -88,7 +88,7 @@ function ToolbarGroup({ label, hint, children, gap = 1 }) {
   );
 }
 
-export default function ColumnPostToolbar({ editor }) {
+export default function ColumnPostToolbar({ editor, onImageUpload, imageUploading = false }) {
   const [customAnchorEl, setCustomAnchorEl] = useState(null);
   const [customMarkerText, setCustomMarkerText] = useState("V");
   const [customMarkerColor, setCustomMarkerColor] = useState("#16a34a");
@@ -253,6 +253,12 @@ export default function ColumnPostToolbar({ editor }) {
             active={editor.isActive("blockquote")}
             title="</>"
             shortcut="인용"
+          />
+          <ToolbarButton
+            onClick={onImageUpload}
+            active={false}
+            title={<Icon fontSize="inherit">image</Icon>}
+            shortcut={imageUploading ? "업로드중" : "이미지"}
           />
           <ToolbarButton
             onClick={setLink}
@@ -424,4 +430,6 @@ ToolbarGroup.propTypes = {
 
 ColumnPostToolbar.propTypes = {
   editor: PropTypes.object,
+  onImageUpload: PropTypes.func,
+  imageUploading: PropTypes.bool,
 };
