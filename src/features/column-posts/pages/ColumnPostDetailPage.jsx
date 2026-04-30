@@ -7,6 +7,7 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useMaterialUIController } from "context";
+import { sanitizeHtml } from "shared/lib/sanitizeHtml";
 import PageHeader from "shared/ui/PageHeader";
 import CopyForBlogButton from "../components/CopyForBlogButton";
 import { useColumnPostDetail } from "../hooks/useColumnPostDetail";
@@ -31,6 +32,7 @@ export default function ColumnPostDetailPage() {
 
   const category = data.column_categories || null;
   const categoryName = category?.name || "미분류";
+  const sanitizedContent = sanitizeHtml(data.content || "");
 
   return (
     <DashboardLayout>
@@ -38,7 +40,7 @@ export default function ColumnPostDetailPage() {
       <PageHeader
         title="칼럼 상세"
         darkMode={darkMode}
-        actions={<CopyForBlogButton html={data.content} />}
+        actions={<CopyForBlogButton html={sanitizedContent} />}
       />
 
       <MDBox pt={3} pb={3}>
@@ -67,12 +69,10 @@ export default function ColumnPostDetailPage() {
 
               <MDBox mt={1}>
                 <MDTypography variant="body2" color="text">
-                  작성일:{" "}
-                  {data.created_at ? new Date(data.created_at).toLocaleString("ko-KR") : "-"}
+                  작성일 {data.created_at ? new Date(data.created_at).toLocaleString("ko-KR") : "-"}
                 </MDTypography>
                 <MDTypography variant="body2" color="text">
-                  수정일:{" "}
-                  {data.updated_at ? new Date(data.updated_at).toLocaleString("ko-KR") : "-"}
+                  수정일 {data.updated_at ? new Date(data.updated_at).toLocaleString("ko-KR") : "-"}
                 </MDTypography>
                 <MDTypography variant="body2" color="text">
                   공개 상태: {data.is_public ? "공개" : "비공개"}
@@ -82,7 +82,7 @@ export default function ColumnPostDetailPage() {
               <MDBox
                 mt={3}
                 className="editor-wrapper"
-                dangerouslySetInnerHTML={{ __html: data.content || "" }}
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </MDBox>
           </MDBox>

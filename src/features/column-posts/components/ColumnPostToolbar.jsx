@@ -166,170 +166,180 @@ export default function ColumnPostToolbar({ editor, onImageUpload, imageUploadin
 
   return (
     <>
-      <MDBox display="flex" flexWrap="wrap" gap={1}>
-        <ToolbarGroup label="글자색" hint="Ctrl+Alt+숫자" gap={1.5}>
-          {QUICK_COLOR_BUTTONS.map((item) => (
-            <MDButton
-              key={item.label}
-              variant="outlined"
-              size="small"
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => applyQuickColor(item.color)}
-              sx={{
-                minWidth: "30px",
+      <MDBox display="flex" flexDirection="column" gap={1}>
+        <MDBox display="flex" flexWrap="wrap" gap={1}>
+          <ToolbarGroup label="글자색" hint="Ctrl+Alt+숫자" gap={1.5}>
+            {QUICK_COLOR_BUTTONS.map((item) => (
+              <MDButton
+                key={item.label}
+                variant="outlined"
+                size="small"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => applyQuickColor(item.color)}
+                sx={{
+                  minWidth: "30px",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "999px",
+                  px: 0,
+                  fontSize: "0.72rem",
+                  fontWeight: 700,
+                  borderColor: item.color,
+                  color: item.textColor,
+                  backgroundColor: item.color,
+                  "&:hover": {
+                    backgroundColor: item.color,
+                    borderColor: item.color,
+                    opacity: 0.9,
+                  },
+                }}
+              >
+                {item.label}
+              </MDButton>
+            ))}
+            <input
+              type="color"
+              value={currentColor}
+              onChange={setTextColor}
+              aria-label="글자색 설정"
+              style={{
                 width: "30px",
                 height: "30px",
+                padding: 0,
+                border: "1px solid #d0d5dd",
                 borderRadius: "999px",
-                px: 0,
-                fontSize: "0.72rem",
-                fontWeight: 700,
-                borderColor: item.color,
-                color: item.textColor,
-                backgroundColor: item.color,
-                "&:hover": {
-                  backgroundColor: item.color,
-                  borderColor: item.color,
-                  opacity: 0.9,
-                },
+                background: "transparent",
+                cursor: "pointer",
               }}
-            >
-              {item.label}
-            </MDButton>
-          ))}
-          <input
-            type="color"
-            value={currentColor}
-            onChange={setTextColor}
-            aria-label="텍스트 색상 설정"
-            style={{
-              width: "30px",
-              height: "30px",
-              padding: 0,
-              border: "1px solid #d0d5dd",
-              borderRadius: "999px",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
-          <ToolbarButton onClick={clearTextColor} active={false} title="0" shortcut="초기화" />
-        </ToolbarGroup>
+            />
+            <ToolbarButton onClick={clearTextColor} active={false} title="0" shortcut="초기화" />
+          </ToolbarGroup>
 
-        <ToolbarGroup label="글머리">
-          <ToolbarButton
-            onClick={() => applyBullet("dash")}
-            active={currentBulletKind === "dash"}
-            title="-"
-            shortcut="대시"
-          />
-          <ToolbarButton
-            onClick={() => applyBullet("number")}
-            active={currentBulletKind === "number"}
-            title="1."
-            shortcut="번호"
-          />
-          <ToolbarButton
-            onClick={() => applyBullet("dot")}
-            active={currentBulletKind === "dot"}
-            title="•"
-            shortcut="점"
-          />
-          <ToolbarButton
-            onClick={() => applyBullet("check")}
-            active={currentBulletKind === "check"}
-            title="✓"
-            shortcut="체크"
-          />
-          <ToolbarButton
-            onClick={openCustomBullet}
-            active={currentBulletKind === "custom"}
-            title="✦"
-            shortcut="사용자"
-          />
-        </ToolbarGroup>
+          <ToolbarGroup label="글머리">
+            <ToolbarButton
+              onClick={() => applyBullet("dash")}
+              active={currentBulletKind === "dash"}
+              title="-"
+              shortcut="대시"
+            />
+            <ToolbarButton
+              onClick={() => applyBullet("number")}
+              active={currentBulletKind === "number"}
+              title="1."
+              shortcut="번호"
+            />
+            <ToolbarButton
+              onClick={() => applyBullet("dot")}
+              active={currentBulletKind === "dot"}
+              title="•"
+              shortcut="점"
+            />
+            <ToolbarButton
+              onClick={() => applyBullet("check")}
+              active={currentBulletKind === "check"}
+              title="✓"
+              shortcut="체크"
+            />
+            <ToolbarButton
+              onClick={openCustomBullet}
+              active={currentBulletKind === "custom"}
+              title="☆"
+              shortcut="사용자"
+            />
+          </ToolbarGroup>
 
-        <ToolbarGroup>
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            active={editor.isActive("blockquote")}
-            title="</>"
-            shortcut="인용"
-          />
-          <ToolbarButton
-            onClick={onImageUpload}
-            active={false}
-            title={<Icon fontSize="inherit">image</Icon>}
-            shortcut={imageUploading ? "업로드중" : "이미지"}
-          />
-          <ToolbarButton
-            onClick={setLink}
-            active={editor.isActive("link")}
-            title={<Icon fontSize="inherit">link</Icon>}
-            shortcut="링크"
-          />
-        </ToolbarGroup>
+          <ToolbarGroup>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleBlockquote().run()}
+              active={editor.isActive("blockquote")}
+              title="</>"
+              shortcut="인용"
+            />
+            <ToolbarButton
+              onClick={onImageUpload}
+              active={false}
+              title={<Icon fontSize="inherit">image</Icon>}
+              shortcut={imageUploading ? "업로드중" : "이미지"}
+            />
+            <ToolbarButton
+              onClick={setLink}
+              active={editor.isActive("link")}
+              title={<Icon fontSize="inherit">link</Icon>}
+              shortcut="링크"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().setHorizontalRule().run()}
+              active={false}
+              title="―"
+              shortcut="구분선"
+            />
+          </ToolbarGroup>
+        </MDBox>
 
-        <ToolbarGroup label="정렬">
-          <ToolbarButton
-            onClick={() => editor.chain().focus().setTextAlign("left").run()}
-            active={editor.isActive({ textAlign: "left" })}
-            title={<Icon fontSize="inherit">format_align_left</Icon>}
-            shortcut="왼쪽"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().setTextAlign("center").run()}
-            active={editor.isActive({ textAlign: "center" })}
-            title={<Icon fontSize="inherit">format_align_center</Icon>}
-            shortcut="가운데"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().setTextAlign("right").run()}
-            active={editor.isActive({ textAlign: "right" })}
-            title={<Icon fontSize="inherit">format_align_right</Icon>}
-            shortcut="오른쪽"
-          />
-        </ToolbarGroup>
+        <MDBox display="flex" flexWrap="wrap" gap={1}>
+          <ToolbarGroup label="정렬">
+            <ToolbarButton
+              onClick={() => editor.chain().focus().setTextAlign("left").run()}
+              active={editor.isActive({ textAlign: "left" })}
+              title={<Icon fontSize="inherit">format_align_left</Icon>}
+              shortcut="왼쪽"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().setTextAlign("center").run()}
+              active={editor.isActive({ textAlign: "center" })}
+              title={<Icon fontSize="inherit">format_align_center</Icon>}
+              shortcut="가운데"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+              active={editor.isActive({ textAlign: "right" })}
+              title={<Icon fontSize="inherit">format_align_right</Icon>}
+              shortcut="오른쪽"
+            />
+          </ToolbarGroup>
 
-        <ToolbarGroup label="헤더" hint="Ctrl+Alt+↑/↓">
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            active={editor.isActive("heading", { level: 1 })}
-            title="H1"
-            shortcut="큰 제목"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            active={editor.isActive("heading", { level: 2 })}
-            title="H2"
-            shortcut="중간 제목"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            active={editor.isActive("heading", { level: 3 })}
-            title="H3"
-            shortcut="작은 제목"
-          />
-        </ToolbarGroup>
+          <ToolbarGroup label="헤더" hint="Ctrl+Alt+↑/↓">
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              active={editor.isActive("heading", { level: 1 })}
+              title="H1"
+              shortcut="큰 제목"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+              active={editor.isActive("heading", { level: 2 })}
+              title="H2"
+              shortcut="중간 제목"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+              active={editor.isActive("heading", { level: 3 })}
+              title="H3"
+              shortcut="작은 제목"
+            />
+          </ToolbarGroup>
 
-        <ToolbarGroup label="스타일" hint="Ctrl+문자">
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            active={editor.isActive("bold")}
-            title="B"
-            shortcut="Ctrl+B"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            active={editor.isActive("italic")}
-            title="I"
-            shortcut="Ctrl+I"
-          />
-          <ToolbarButton
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-            active={editor.isActive("underline")}
-            title="U"
-            shortcut="Ctrl+U"
-          />
-        </ToolbarGroup>
+          <ToolbarGroup label="스타일" hint="Ctrl+문자">
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              active={editor.isActive("bold")}
+              title="B"
+              shortcut="Ctrl+B"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              active={editor.isActive("italic")}
+              title="I"
+              shortcut="Ctrl+I"
+            />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              active={editor.isActive("underline")}
+              title="U"
+              shortcut="Ctrl+U"
+            />
+          </ToolbarGroup>
+        </MDBox>
       </MDBox>
 
       <Popover

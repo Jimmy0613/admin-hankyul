@@ -47,7 +47,7 @@ export default function ColumnPostFormPage() {
 
       <MDBox pt={3} pb={3}>
         <Card>
-          <MDBox p={3}>
+          <MDBox p={3} sx={{ width: "min(100%, 1080px)", mx: "auto" }}>
             <MDBox mb={2} display="flex" gap={2} flexDirection={{ xs: "column", md: "row" }}>
               <MDBox sx={{ minWidth: { xs: "100%", md: "220px" } }}>
                 <select

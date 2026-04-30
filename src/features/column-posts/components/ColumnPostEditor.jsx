@@ -410,6 +410,8 @@ export default function ColumnPostEditor({ content, onChange, registerPendingIma
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "min(100%, 1024px)",
+        mx: "auto",
         border: "1px solid",
         borderColor: "grey.300",
         borderRadius: "0.5rem",
