@@ -94,6 +94,17 @@ Quick start options:
 
 [![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/creativetimofficial/material-dashboard-react&utm_source=github&utm_medium=referral&utm_campaign=github-creativetim&utm_term=deploy-project&utm_content=button-head)
 
+## Supabase Keepalive
+
+If you are using a Supabase Free project, this repository includes a weekly GitHub Actions keepalive job at `.github/workflows/supabase-keepalive.yml`.
+
+Set these GitHub repository secrets before enabling it:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+
+The workflow runs every Monday at 03:00 UTC and can also be triggered manually from the Actions tab.
+
 ## Documentation
 
 The documentation for the Material Dashboard is hosted at our [website](https://www.creative-tim.com/learning-lab/react/overview/material-dashboard/?ref=readme-mdr).

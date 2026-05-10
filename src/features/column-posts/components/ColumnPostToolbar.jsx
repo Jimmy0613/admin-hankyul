@@ -17,6 +17,24 @@ const QUICK_COLOR_BUTTONS = [
   { label: "5", color: "#2563eb", textColor: "#ffffff" },
 ];
 
+function normalizeColorToHex(value) {
+  if (!value) return "#111827";
+
+  if (value.startsWith("#")) {
+    return value;
+  }
+
+  const rgbMatch = value.match(/\d+/g);
+  if (rgbMatch?.length >= 3) {
+    const [r, g, b] = rgbMatch
+      .slice(0, 3)
+      .map((item) => Number(item).toString(16).padStart(2, "0"));
+    return `#${r}${g}${b}`;
+  }
+
+  return "#111827";
+}
+
 function ToolbarButton({ onClick, active, title, shortcut, minWidth = "52px" }) {
   const textColor = active ? "#ffffff" : "inherit";
 
@@ -96,7 +114,7 @@ export default function ColumnPostToolbar({ editor, onImageUpload, imageUploadin
 
   if (!editor) return null;
 
-  const currentColor = editor.getAttributes("textStyle").color || "#111827";
+  const currentColor = normalizeColorToHex(editor.getAttributes("textStyle").color || "#111827");
   const currentParagraph = editor.getAttributes("paragraph");
   const currentBulletKind = currentParagraph.bulletKind || null;
 

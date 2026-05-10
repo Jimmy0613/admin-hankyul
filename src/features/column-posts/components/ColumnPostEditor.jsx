@@ -38,6 +38,24 @@ function escapeAttribute(value = "") {
   return value.replace(/"/g, "&quot;");
 }
 
+function normalizeColorToHex(value) {
+  if (!value) return "#111827";
+
+  if (value.startsWith("#")) {
+    return value;
+  }
+
+  const rgbMatch = value.match(/\d+/g);
+  if (rgbMatch?.length >= 3) {
+    const [r, g, b] = rgbMatch
+      .slice(0, 3)
+      .map((item) => Number(item).toString(16).padStart(2, "0"));
+    return `#${r}${g}${b}`;
+  }
+
+  return "#111827";
+}
+
 function loadImage(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -162,6 +180,28 @@ export default function ColumnPostEditor({ content, onChange, registerPendingIma
     },
   });
 
+  const protectImageDeletion = Extension.create({
+    name: "protectImageDeletion",
+    addKeyboardShortcuts() {
+      return {
+        Backspace: () => {
+          if (this.editor.state.selection.node?.type?.name === "image") {
+            return true;
+          }
+
+          return false;
+        },
+        Delete: () => {
+          if (this.editor.state.selection.node?.type?.name === "image") {
+            return true;
+          }
+
+          return false;
+        },
+      };
+    },
+  });
+
   const pendingImageAttributes = Extension.create({
     name: "pendingImageAttributes",
     addGlobalAttributes() {
@@ -192,6 +232,9 @@ export default function ColumnPostEditor({ content, onChange, registerPendingIma
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
+        hardBreak: false,
+        link: false,
+        underline: false,
       }),
       Underline,
       TextStyle,
@@ -209,6 +252,7 @@ export default function ColumnPostEditor({ content, onChange, registerPendingIma
       HardBreak,
       shiftEnter,
       quickTextColor,
+      protectImageDeletion,
     ],
     content: content || "<p></p>",
     onUpdate: ({ editor: currentEditor }) => {
@@ -385,7 +429,7 @@ export default function ColumnPostEditor({ content, onChange, registerPendingIma
           .insertContent(
             `<p><img src="${previewUrl}" data-pending-image-id="${pendingId}" alt="${escapeAttribute(
               file.name || "업로드 이미지"
-            )}" /></p>`
+            )}" /></p><p></p>`
           )
           .run();
       }
