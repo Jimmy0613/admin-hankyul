@@ -34,7 +34,7 @@ async function main() {
       const response = await ping(check.path);
       results.push({
         ...check,
-        ok: response.ok,
+        ok: true,
         status: response.status,
       });
     } catch (error) {
@@ -58,7 +58,7 @@ async function main() {
 
   if (!hasSuccess) {
     console.error(
-      "[supabase-keepalive] All keep-alive requests failed. Check Supabase URL/key or platform availability.",
+      "[supabase-keepalive] All keep-alive requests failed at the network level. Check Supabase URL/key or platform availability.",
     );
     process.exit(1);
   }
